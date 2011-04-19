@@ -4,5 +4,6 @@
 *.log
 *.swp
 *.pdf
+!uebung*.pdf
 *.png
 *.ps
