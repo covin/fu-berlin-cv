@@ -14,6 +14,7 @@ I_out = bayer2rgb(double(Bayer));
 
 image([I_in uint8(I_out)]);
 % image(I_in);
+imwrite(uint8(Bayer), "u01/bayer.png");
 imwrite(uint8(I_out), "u01/demosaicing.png");
 
 

@@ -7,6 +7,7 @@ function I_rgb = bayer2rgb(I_bayer)
 
   I_rgb = zeros(rows, cols, 3);
   B = I_bayer;
+% apply a kernel in current global position row r and column c of bayer image B
   function v = apply(K)
     global B r c
     % determine kernel size
@@ -19,7 +20,6 @@ function I_rgb = bayer2rgb(I_bayer)
     v = sum(sum(Sub.*K));
   end
 
-%-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 % Kernel definitions:
   G_at_R = [ 0  0 -1  0  0

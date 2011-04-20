@@ -2,6 +2,8 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{german}
 \usepackage{color}
+\usepackage{xcolor}
+
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{algorithmic}
@@ -14,7 +16,30 @@
 \usepackage{amssymb,euscript}
 \usepackage{dsfont}
 \usepackage{listings}
+\lstset{inputencoding=utf8x,
+        extendedchars=\true,
+        numbers=left, 
+        basicstyle=\footnotesize, 
+        emph={square}, 
+        emph={[2]root,base},
+        numberstyle=\footnotesize, 
+        tabsize=4,
+        stepnumber=5, 
+        numbersep=5pt, 
+        frame=b, 
+        framexleftmargin=5mm, 
+        xleftmargin=5mm,
+        escapeinside={@}{@}
+}
+
 \usepackage{enumerate}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont={bf,white},textfont={bf,white}}
+
+\usepackage{subfigure}
+
 \newfont{\Fr}{eufm10}
 \newfont{\Sc}{eusm10}
 \newfont{\Bb}{msbm10}
