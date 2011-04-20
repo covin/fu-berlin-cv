@@ -8,6 +8,6 @@ I_in = loadimageprompt();
 I_out = rgb2yuv(I_in);
 
 UVfreq = getuvfreq(I_out);
-relUVfreq = (1/max(max(UVfreq)))*UVfreq;
+relUVfreq = uint8(ceil((255/max(max(UVfreq)))*UVfreq));
 
 imshow(relUVfreq);
