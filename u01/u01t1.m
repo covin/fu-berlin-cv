@@ -10,11 +10,10 @@ I_in = loadimageprompt();
 Bayer = rgb2bayer(I_in);
 
 % TODO implement :P
-I_out = bayer2rgb(Bayer);
+I_out = bayer2rgb(double(Bayer));
 
 image([I_in uint8(I_out)]);
 % image(I_in);
-imshow(uint8(Bayer));
-% imwrite(uint8(I_con), "u01/h_out.png");
+imwrite(uint8(I_out), "u01/demosaicing.png");
 
 
