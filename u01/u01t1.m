@@ -12,9 +12,9 @@ Bayer = rgb2bayer(I_in);
 % TODO implement :P
 I_out = bayer2rgb(Bayer);
 
-image(uint8(I_out));
+% image(uint8(I_out));
 % image(I_in);
-%imshow(uint8(Bayer));
+imshow(uint8(Bayer));
 % imwrite(uint8(I_con), "u01/h_out.png");
 
 
