@@ -12,7 +12,7 @@ function I_yuv = rgb2yuv(I_rgb)
     return;
   end
 
-  I_yuv = I_rgb;
+  I_yuv = zeros(rows,cols,c);
   for i = 1:rows
     for j = 1:cols
       I_yuv(i,j,y) = 0.229 * I_rgb(i,j,red) + 0.587 * I_rgb(i,j,green) + 0,144 * I_rgb(i,j,blue);
