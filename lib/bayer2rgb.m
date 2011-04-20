@@ -1,13 +1,12 @@
 function I_rgb = bayer2rgb(I_bayer)
+  global B r c
   [rows, cols] = size(I_bayer);
   red = 1;
   green = 2;
   blue = 3;
 
   I_rgb = zeros(rows, cols, 3);
-
-  global B = I_bayer;
-  global r c
+  B = I_bayer;
   function v = apply(K)
     global B r c
     % determine kernel size
@@ -32,7 +31,7 @@ function I_rgb = bayer2rgb(I_bayer)
   G_at_B = G_at_R;
   
   R_at_G_in_Rrow_Bcol  = [ 0  0 0.5 0  0
-                          -1  0 -1  0  0
+                           0 -1  0 -1  0
                           -1  4  5  4 -1
                            0 -1  0 -1  0
                            0  0 0.5 0  0]* 1/8;
