@@ -130,6 +130,78 @@ scharfen Farb\"uberg\"angen scheitert.
 
 \section*{Aufgabe 2 - UV-Histogramm} 
 
+\begin{figure}[htpb]
+\begin{center}
+\subfigure[Eingabe Bild]{\includegraphics[width=0.3\textwidth]{samples/lenna512c}}
+\subfigure[UV H\"aufigkeiten]{\includegraphics[width=0.3\textwidth]{u01/UVfreq_lenna}}
+\end{center}
+\caption{UV-H\"aufigkeiten auf ``Lenna''}
+\label{fig:u01t2-lenna}
+\end{figure}
+
+\begin{figure}[htpb]
+\begin{center}
+\subfigure[Eingabe Bild]{\includegraphics[width=0.3\textwidth]{samples/spring-colors}}
+\subfigure[UV H\"aufigkeiten]{\includegraphics[width=0.3\textwidth]{u01/UVfreq_spring}}
+\end{center}
+\caption{UV-H\"aufigkeiten auf bunter Blume}
+\label{fig:u01t2-spring}
+\end{figure}
+
+\lstset{language=matlab}
+\begin{lstlisting}[caption={YUV Transformation}]
+function I_yuv = rgb2yuv(I_rgb)
+  red = 1;
+  green = 2;
+  blue = 3;
+  y = 1;
+  u = 2;
+  v = 3;
+  [rows, cols, c] = size(I_rgb);
+  if c != 3
+    printf('bad parameter for rgb2yuv: Did you pass a RGB image?\n');
+    return;
+  end
+  if (max(max(max(I_rgb))) > 1)
+    I_rgb = (1/255)*double(I_rgb);
+  end
+
+  I_yuv = zeros(rows,cols,c);
+  %calculate YUV from RGB
+  I_yuv(:,:,y) = 0.229 * I_rgb(:,:,red) + 0.587 * I_rgb(:,:,green) + 0.144 * I_rgb(:,:,blue);
+  I_yuv(:,:,u) = (I_rgb(:,:,blue) - I_yuv(:,:,y)) * 0.493;
+  I_yuv(:,:,v) = (I_rgb(:,:,red) - I_yuv(:,:,y)) * 0.877;
+end
+\end{lstlisting}
+
+\begin{lstlisting}[caption={UV Frequency Calculation}]
+function UVfreq = getuvfreq(I_yuv)
+  u = 2;
+  v = 3;
+  % calculated minimum and maximum values from the values of the lecture
+  u_min = -.40229;
+  u_max = .42201;
+  v_min = -.64109;
+  v_max = .67617;
+  [rows, cols, c] = size(I_yuv);
+
+  UVfreq = zeros(256,256);
+  
+  % this makes u and v discrete values between 1 and 256
+  I_yuv(:,:,u) = ceil((I_yuv(:,:,u) - u_min) * (255/(u_max-u_min)));
+  I_yuv(:,:,v) = ceil((I_yuv(:,:,v) - v_min) * (255/(v_max-v_min)));
+  for i = 1:rows
+    for j = 1:cols
+      UVfreq(I_yuv(i,j,u),I_yuv(i,j,v))+=1;
+    endfor
+  endfor
+
+  % relative to the maximum frequency of a pair and rounded
+  UVfreq = uint8(ceil((255/max(max(UVfreq)))*UVfreq));
+end
+\end{lstlisting}
+
+
 
 % \includegraphics[width=150mm]{<file.eps>}
 \end{document}

@@ -15,6 +15,7 @@ function I_yuv = rgb2yuv(I_rgb)
   end
 
   I_yuv = zeros(rows,cols,c);
+  %calculate YUV from RGB
   I_yuv(:,:,y) = 0.229 * I_rgb(:,:,red) + 0.587 * I_rgb(:,:,green) + 0.144 * I_rgb(:,:,blue);
   I_yuv(:,:,u) = (I_rgb(:,:,blue) - I_yuv(:,:,y)) * 0.493;
   I_yuv(:,:,v) = (I_rgb(:,:,red) - I_yuv(:,:,y)) * 0.877;
