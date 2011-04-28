@@ -1,6 +1,7 @@
 *.aux
 *.dvi
 *.toc
+*.jpg
 *.log
 *.swp
 *.swo
