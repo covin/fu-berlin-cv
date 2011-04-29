@@ -2,6 +2,8 @@ function desc = calculateSIFTDescriptor (L,x,y)
   # descriptor as a multidimensionla array with left upper corner (1,1)
   desc = zeros(4,4,8);
 
+
+
 #this is not right
   for i=-8:8
     for j=-8:8
