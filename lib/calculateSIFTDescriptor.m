@@ -68,8 +68,8 @@ function SD = calculateSIFTDescriptor (Image, KeyPoint, rot, gridwidth, bsz, bin
         end
       end
       SD = [SD G_histo];
-      # normalization of the feature vector
-      SD = SD/norm(SD);
     end
   end
+  # normalization of the feature vector
+  SD = SD/norm(SD);
 end
