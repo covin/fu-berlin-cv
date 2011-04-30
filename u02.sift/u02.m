@@ -41,13 +41,14 @@ for y=1:gridwidth
     p = O + x*SDC_x + y*SDC_y;
     SGx(y,x) = gx = interp2(Dx,p(2), p(1));
     SGy(y,x) = gy = interp2(Dy,p(2), p(1));
-    SG_magn(y,x) = m = norm([gx gy]);
+    SG_magSG_theta = mod(SG_theta + 2*pi, 2*pi);SG_theta = mod(SG_theta + 2*pi, 2*pi);n(y,x) = m = norm([gx gy]);
   end
 end
 SG_theta = atan2(SGy, SGx) + pi;
 # unfortunatly SG_theta holds gradient angles in image space
 # we have to handle them relative to grids rotation
 SG_theta -= rot * pi/180;
+SG_theta = mod(SG_theta + 2*pi, 2*pi);
 # weight magnitude in the gaussian way
 g = gaussmatrix(gridwidth, gridwidth/2);
 SG_magn .*= g;
@@ -64,9 +65,9 @@ for b_y= 1:gridwidth/bsz
     G_histo=zeros(1, bins);
     for row=1:bsz-1
       for col=1:bsz-1
-        theta = B_theta(row,col)
-        prevBin = floor(theta/step)
-        nextBin = mod(prevBin+1,bins)
+        theta = B_theta(row,col);
+        prevBin = floor(theta/step);
+        nextBin = mod(prevBin+1,bins);
         prevBinDist = abs(prevBin*step-theta)/step;
         nextBinDist = 1-prevBinDist;
         mPrev = (1-prevBinDist)*B_magn(row,col);
@@ -78,5 +79,5 @@ for b_y= 1:gridwidth/bsz
     SD = [SD G_histo];
   end
 end
-SD
+SD'
 
