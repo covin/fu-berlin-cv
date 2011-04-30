@@ -41,7 +41,7 @@ for y=1:gridwidth
     p = O + x*SDC_x + y*SDC_y;
     SGx(y,x) = gx = interp2(Dx,p(2), p(1));
     SGy(y,x) = gy = interp2(Dy,p(2), p(1));
-    SG_magSG_theta = mod(SG_theta + 2*pi, 2*pi);SG_theta = mod(SG_theta + 2*pi, 2*pi);n(y,x) = m = norm([gx gy]);
+    SG_magn(y,x) = norm([gx gy]);
   end
 end
 SG_theta = atan2(SGy, SGx) + pi;
