@@ -29,8 +29,8 @@ function SD = calculateSIFTDescriptor (Image, KeyPoint, rot, gridwidth, bsz, bin
   for y=1:gridwidth
     for x=1:gridwidth
       p = O + x*SDC_x + y*SDC_y;
-      SGx(y,x) = gx = interp2(Dx,p(2), p(1));
-      SGy(y,x) = gy = interp2(Dy,p(2), p(1));
+      SGx(y,x) = gx = interp2(Dx,p(1), p(2));
+      SGy(y,x) = gy = interp2(Dy,p(1), p(2));
       SG_magn(y,x) = norm([gx gy]);
     end
   end
