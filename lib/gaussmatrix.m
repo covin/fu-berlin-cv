@@ -1,5 +1,5 @@
 function M = gaussmatrix(N,sigma)
-    m = N/2+1;
+    m = (N+1)/2;
     M = zeros(N);
     for x=1:N
         for y=1:N
