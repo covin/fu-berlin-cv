@@ -1,7 +1,7 @@
-# octave script to calculate sift descriptor for given keypoint
+# lucas-kanade
 
 Ic = imread("samples/mrs.easy/101.png");
 In = imread("samples/mrs.easy/102.png");
 
+F = lucaskanade(double(Ic), double(In), 20, 20, 1);
 
-SD4 = calculateSIFTDescriptor (Image, KeyPoint, rot, gridwidth, bsz, bins);
