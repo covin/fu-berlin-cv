@@ -3,28 +3,27 @@
 # In - next image
 # 
 function F = lucaskanade(Ic, In, Xstep, Ystep, N)
+
   [rows, cols] = size(Ic);
-  [Dx, Dy] = gradient(Ic);
+  [Dr, Dc] = gradient(Ic);
   # is that really correct???
   Dt = Ic - In;
 
-  F = zeros(0,0,2);
+  F = zeros(rows,cols,2);
   # gaussian weights
   W = diag(vec(gaussmatrix(2*N+1, N)));
 
-  row = 1;
-  for x=Xstep:Xstep:cols
-    vecs = [];
-    for y=Ystep:Ystep:rows
-      Ix = vec( Dx(y-N:y+N, x-N:x+N));
-      Iy = vec( Dy(y-N:y+N, x-N:x+N));
-      It = vec(-Dt(y-N:y+N, x-N:x+N));
-      S  = [Ix Iy];
+  for r=(1+N):(rows-N)
+    for c=(1+N):(cols-N)
+      Ir = vec( Dr(r-N:r+N, c-N:c+N));
+      Ic = vec( Dc(r-N:r+N, c-N:c+N));
+      It = vec(-Dt(r-N:r+N, c-N:c+N));
+      S  = [Ir Ic];
       # octave comes with: warning: inverse: matrix singular to machine 
       # precision, rcond = 0
-      # 
-      v = inv(S.'*W*S)*S.'*W*It;
-      vecs = [vecs v];
+      # there I fixed it.
+      v = pinv(double(S.')*W*double(S))*double(S.')*W*double(It);
+      F (r,c,:) = v;
     end
   end
 end
