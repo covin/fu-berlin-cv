@@ -2,11 +2,12 @@
 # Ic - current image
 # In - next image
 # 
-function F = lucaskanade(Ic, In, Xstep, Ystep, N)
+function F = lucaskanade(Ic, In, N)
 
   [rows, cols] = size(Ic);
+  # calculate the gradients, r for rows, c for columns
   [Dr, Dc] = gradient(Ic);
-  # is that really correct???
+  # calculate the general intenstiy change in the image
   Dt = Ic - In;
 
   F = zeros(rows,cols,2);
@@ -15,11 +16,12 @@ function F = lucaskanade(Ic, In, Xstep, Ystep, N)
 
   for r=(1+N):(rows-N)
     for c=(1+N):(cols-N)
+      # get the parameters for the l-k formula
       Ir = vec( Dr(r-N:r+N, c-N:c+N));
       Ic = vec( Dc(r-N:r+N, c-N:c+N));
       It = vec(-Dt(r-N:r+N, c-N:c+N));
       S  = [Ir Ic];
-      # use pseudo-inverse
+      # use pseudo-inverse to calculate vectors
       v = pinv(double(S.')*W*double(S))*double(S.')*W*double(It);
       F (r,c,:) = v;
     end

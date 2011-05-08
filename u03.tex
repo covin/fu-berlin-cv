@@ -19,12 +19,17 @@
 Folgende Funktion errechnet die Bewegung nach Lucas-Kanade.
 
 \lstset{language=matlab}
-\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
+\begin{lstlisting}[caption={Berechnung Lucas-Kanade}]
+# apply Lucas-Kanade algorithm on
+# Ic - current image
+# In - next image
+# 
 function F = lucaskanade(Ic, In, Xstep, Ystep, N)
 
   [rows, cols] = size(Ic);
+  # calculate the gradients, r for rows, c for columns
   [Dr, Dc] = gradient(Ic);
-  # is that really correct???
+  # calculate the general intenstiy change in the image
   Dt = Ic - In;
 
   F = zeros(rows,cols,2);
@@ -33,11 +38,12 @@ function F = lucaskanade(Ic, In, Xstep, Ystep, N)
 
   for r=(1+N):(rows-N)
     for c=(1+N):(cols-N)
+      # get the parameters for the l-k formula
       Ir = vec( Dr(r-N:r+N, c-N:c+N));
       Ic = vec( Dc(r-N:r+N, c-N:c+N));
       It = vec(-Dt(r-N:r+N, c-N:c+N));
       S  = [Ir Ic];
-      # use pseudo-inverse
+      # use pseudo-inverse to calculate vectors
       v = pinv(double(S.')*W*double(S))*double(S.')*W*double(It);
       F (r,c,:) = v;
     end
@@ -45,7 +51,25 @@ function F = lucaskanade(Ic, In, Xstep, Ystep, N)
 end
 \end{lstlisting}
 
+Die Vektoren werden folgendermaßen erzeugt:
 
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Zeichnen der Vektoren}]
+# display Vectors on a picture
+# Im - image
+# V - vectors
+# Xstep, Ystep - distance between vectors
+# 
+function F = drawVectorsOnImage(Im, V, Xstep, Ystep)
+  [rows, cols] = size(Im);
+  r = Ystep:Ystep:rows;  
+  c=Xstep:Xstep:cols;
+  imshow(Im);
+  hold on;
+  quiver(c,r,V(r,c,1),V(r,c,2),s=0);
+  hold off;
+end
+\end{lstlisting}
 
 Folgende SIFT-Descriptoren wurden errechnet:
 
