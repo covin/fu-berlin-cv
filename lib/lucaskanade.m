@@ -19,9 +19,7 @@ function F = lucaskanade(Ic, In, Xstep, Ystep, N)
       Ic = vec( Dc(r-N:r+N, c-N:c+N));
       It = vec(-Dt(r-N:r+N, c-N:c+N));
       S  = [Ir Ic];
-      # octave comes with: warning: inverse: matrix singular to machine 
-      # precision, rcond = 0
-      # there I fixed it.
+      # use pseudo-inverse
       v = pinv(double(S.')*W*double(S))*double(S.')*W*double(It);
       F (r,c,:) = v;
     end

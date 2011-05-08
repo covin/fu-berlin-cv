@@ -1,0 +1,65 @@
+\include{tex/headerueb}
+\include{tex/header}
+\include{tex/info}
+
+
+\newcommand{\nr}{3}
+
+\begin{document}
+\section*{Aufgabe 5}
+
+\begin{figure}[htpb]
+\begin{center}
+{\includegraphics[width=0.25\textwidth]{samples/mrs.easy/101.png}}
+\end{center}
+\caption{Das Eingabebild für die Lucas-Kanade-Berechnung }
+\label{fig:u03-picture}
+\end{figure}
+
+Folgende Funktion errechnet die Bewegung nach Lucas-Kanade.
+
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
+function F = lucaskanade(Ic, In, Xstep, Ystep, N)
+
+  [rows, cols] = size(Ic);
+  [Dr, Dc] = gradient(Ic);
+  # is that really correct???
+  Dt = Ic - In;
+
+  F = zeros(rows,cols,2);
+  # gaussian weights
+  W = diag(vec(gaussmatrix(2*N+1, N)));
+
+  for r=(1+N):(rows-N)
+    for c=(1+N):(cols-N)
+      Ir = vec( Dr(r-N:r+N, c-N:c+N));
+      Ic = vec( Dc(r-N:r+N, c-N:c+N));
+      It = vec(-Dt(r-N:r+N, c-N:c+N));
+      S  = [Ir Ic];
+      # use pseudo-inverse
+      v = pinv(double(S.')*W*double(S))*double(S.')*W*double(It);
+      F (r,c,:) = v;
+    end
+  end
+end
+\end{lstlisting}
+
+
+
+Folgende SIFT-Descriptoren wurden errechnet:
+
+Aufgabe 3
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
+
+\end{lstlisting}
+
+Aufgabe 4
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
+
+\end{lstlisting}
+
+% \includegraphics[width=150mm]{<file.eps>}
+\end{document}
