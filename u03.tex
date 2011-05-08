@@ -11,11 +11,13 @@
 \begin{figure}[htpb]
 \begin{center}
 {\includegraphics[width=0.25\textwidth]{samples/mrs.easy/101.png}}
+{\includegraphics[width=0.25\textwidth]{samples/mrs.easy/102.png}}
 \end{center}
-\caption{Das Eingabebild für die Lucas-Kanade-Berechnung }
+\caption{Die Eingabebilder für die Lucas-Kanade-Berechnung }
 \label{fig:u03-picture}
 \end{figure}
 
+Mit Ausführen der Datei u03.m kann Lucas-Kanade und die Vektor-Zeichnung ausgeführt werden.
 Folgende Funktion errechnet die Bewegung nach Lucas-Kanade.
 
 \lstset{language=matlab}
@@ -71,19 +73,19 @@ function F = drawVectorsOnImage(Im, V, Xstep, Ystep)
 end
 \end{lstlisting}
 
-Folgende SIFT-Descriptoren wurden errechnet:
+\section*{Aufgabe 6}
 
-Aufgabe 3
-\lstset{language=matlab}
-\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
+\begin{figure}[htpb]
+\begin{center}
+{\includegraphics[width=0.45\textwidth]{u03.lucas-kanade/u03_pic_n03.png}}
+{\includegraphics[width=0.45\textwidth]{u03.lucas-kanade/u03_pic_n09.png}}
+{\includegraphics[width=0.45\textwidth]{u03.lucas-kanade/u03_pic_n15.png}}
+\end{center}
+\caption{Die Ausgabebilder für die Lucas-Kanade-Berechnung }
+\label{fig:u03-t6}
+\end{figure}
 
-\end{lstlisting}
-
-Aufgabe 4
-\lstset{language=matlab}
-\begin{lstlisting}[caption={Berechnung des SIFT-Descriptor-Vektors}]
-
-\end{lstlisting}
+Wir haben für die Fenstergrößen 3x3, 9x9 und 15x15 getestet. Die Bilder finden sich auch noch in der parallel abgegebenen .zip-Datei.
 
 % \includegraphics[width=150mm]{<file.eps>}
 \end{document}
