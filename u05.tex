@@ -1,0 +1,113 @@
+\include{tex/headerueb}
+\include{tex/header}
+\include{tex/info}
+
+
+\newcommand{\nr}{5}
+
+\begin{document}
+\section*{Aufgabe 10 - Kamera-Kalibrierung mit vier Punkten in einer Ebene}
+
+
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Funktion f\"ur die Kamera-Kalibrierung}]
+% returns calibration with rotation R and translation t
+function [R t] = locateCam(I, W)
+  [points, dim] = size(I);
+  if points != 4
+    printf('are you kidding me? I exactly need four points\n');
+  endif
+  if size(I) != size(W)
+    printf('invalid coordinate mapping\n');
+  endif
+  x = 1;
+  y = 2;
+
+  F = [];
+  for p=1:points
+     F = [F; W(p,x) W(p,y) 1      0      0 0 -I(p,x)*W(p,x) -I(p,x)*W(p,y) -I(p,x)];
+     F = [F;      0      0 0 W(p,x) W(p,y) 1 -I(p,y)*W(p,x) -I(p,y)*W(p,y) -I(p,y)];
+  end
+  h = inv(F(:,1:8))*-F(:,9);
+  H = [h(1) h(2) h(3)
+       h(4) h(5) h(6)
+       h(7) h(8)   1];
+  H /= norm(H(:,1));
+  r1 = H(:,1);
+  r2 = H(:,2);
+  r3 = cross(r1, r2);
+  R  = [r1 r2 r3];
+  t  = -R^-1*H(:,3);
+end
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Anwendung der Kalibrierung}]
+% Manuelle Bestimmung der Punkte
+% P5100207s: P1(400|160), P2(463|343), P3(166|391), P4(118|190)
+Pic1 = [400, 160; 463, 343; 166, 391; 118, 190];
+% P5100208s: P1(427|143), P2(567|300), P3(185|376), P4( 88|222)
+Pic2 = [427, 173; 567, 300; 185, 376;  88, 222];
+% P5100209s: P1(426|166), P2(589|269), P3(177|344), P4( 65|215)
+Pic3 = [426, 166; 589, 269; 177, 344;  65, 215];
+% P5100210s: P1(435|166), P2(611|231), P3(185|279), P4( 63|196)
+Pic4 = [435, 166; 611, 231; 185, 279;  69, 196];
+World = [ 10,  10
+          10, 220
+         317, 220
+         317,  10];
+% sensor dimension of [17.3mm x 13.0mm]
+dim = [640, 480];
+sen = [17.3, 13];
+f   = 38;
+
+function S = pixel2sensor(P, Dim, Sensor)
+    S = (P / diag(Dim)-0.5) * diag(Sensor);
+end
+format = 'Cam position in pic %d: x=%.2f cm,y=%.2f cm, h=%.2f cm\n'; 
+S = pixel2sensor(Pic1, dim, sen)./f;
+[R t] = locateCam(S,World);
+printf( format, 1, t(1)/10, t(2)/10, t(3)/10);
+% Orientierung der Kamera entspricht der Z-Achse
+O = (R*[0 0 1]')'
+
+S = pixel2sensor(Pic2, dim, sen)./f;
+[R t] = locateCam(S,World);
+printf(format,  2, t(1)/10, t(2)/10, t(3)/10);
+O = (R*[0 0 1]')'
+
+S = pixel2sensor(Pic3, dim, sen)./f;
+[R t] = locateCam(S,World);
+printf(format,  2, t(1)/10, t(2)/10, t(3)/10);
+O = (R*[0 0 1]')'
+
+S = pixel2sensor(Pic4, dim, sen)./f;
+[R t] = locateCam(S,World);
+printf(format,  2, t(1)/10, t(2)/10, t(3)/10);
+O = (R*[0 0 1]')'
+\end{lstlisting}
+
+\lstset{language=matlab}
+\begin{lstlisting}[caption={Ausgabe}]
+octave:14> u05
+Cam position in pic 1: x=63.24 cm,y=67.04 cm, h=113.33 cm
+O =
+
+   0.27315  -0.51093  -0.85977
+
+Cam position in pic 2: x=60.00 cm,y=89.33 cm, h=50.62 cm
+O =
+
+   0.091799  -0.914931  -0.504779
+
+Cam position in pic 2: x=60.01 cm,y=89.53 cm, h=37.79 cm
+O =
+
+   0.045332  -0.966189  -0.414578
+
+Cam position in pic 2: x=60.13 cm,y=89.00 cm, h=21.07 cm
+O =
+
+   0.024955  -1.057201  -0.277447
+\end{lstlisting}
+
+\end{document}
