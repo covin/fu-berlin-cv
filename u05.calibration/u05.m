@@ -16,17 +16,11 @@ dim = [640, 480];
 sen = [17.3, 13];
 f   = 38;
 
-function S = pixel2sensor(P_in, Dim, Sensor)
-    [pixels, _] = size(P_in);
-    P = [];
-    for i=1:pixels
-        P = [P; P_in(i,:)-Dim/2];
-    end
-    S = P / diag(Dim) * diag(Sensor);
+function S = pixel2sensor(P, Dim, Sensor)
+    S = (P / diag(Dim)-0.5) * diag(Sensor);
 end
 
-
-S = pixel2sensor(Pic1, dim, sen)./ f;
+S = pixel2sensor(Pic1, dim, sen)./f;
 [R t] = locateCam(S,World);
 t
 
