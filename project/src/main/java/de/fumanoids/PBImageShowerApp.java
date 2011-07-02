@@ -53,7 +53,6 @@ public class PBImageShowerApp {
 			pbiFilePath = "img/1.pbi";
             try {
             java.net.URL file = PBImageShowerApp.class
-                                .getClassLoader()
                                 .getResource("/img/1.pbi");
             pbiFile = new File(file.toURI());
             } catch (Exception ex) {

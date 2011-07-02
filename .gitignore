@@ -8,3 +8,6 @@
 *.pdf
 !uebung*.pdf
 *.ps
+.import/
+target/
+*.pbi
