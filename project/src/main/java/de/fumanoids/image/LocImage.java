@@ -1,6 +1,7 @@
 package de.fumanoids.image;
 
 import java.awt.image.BufferedImage;
+import java.awt.*;
 
 public class LocImage {
 
@@ -23,7 +24,7 @@ public class LocImage {
 	public BufferedImage getImage() {
 		return image;
 	}
-	
+
 	public void setImage(BufferedImage image) {
 		this.image = image;
 	}
@@ -55,4 +56,25 @@ public class LocImage {
 	public int getF() {
 		return f;
 	}
+
+	public void toGraySpace() {
+		BufferedImage image = new BufferedImage(getWidth(), getHeight(),
+				BufferedImage.TYPE_BYTE_GRAY);
+		java.awt.Graphics g = image.getGraphics();
+		g.drawImage(this.image, 0, 0, null);
+		g.dispose();
+		this.image = image;
+
+	}
+
+	public int[] getPixelArray(int x, int y) {
+		int pixel = image.getRGB(x, y);
+		int[] rgb = new int[3];
+		//int alpha = (pixel >> 24) & 0xff;
+		rgb[0] = (pixel >> 16) & 0xff; //red
+		rgb[1] = (pixel >> 8) & 0xff; //gren
+		rgb[2] = (pixel) & 0xff;	// blue
+		return rgb;
+	}
+
 }

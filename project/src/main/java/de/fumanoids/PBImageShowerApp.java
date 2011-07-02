@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import de.fumanoids.gui.ImagePanel;
+import de.fumanoids.image.ImageProcessor;
+import de.fumanoids.image.LocImage;
+import de.fumanoids.image.LocImageLoader;
 import de.fumanoids.message.MsgImage;
 
 /**
@@ -57,7 +60,7 @@ public class PBImageShowerApp {
             pbiFile = new File(file.toURI());
             } catch (Exception ex) {
                 ex.printStackTrace();
-                // TODO: hanle exception
+                // TODO: handle exception
             }
         } else {
 			pbiFilePath = args[0];
@@ -66,7 +69,7 @@ public class PBImageShowerApp {
 
 		MsgImage.Image pbImage = ImageManager.openImage(pbiFile);
 		pbImage.getCenter();
-		imgPanel.setImage(pbImage);
+		//imgPanel.setImage(pbImage);
 
 		// show infos of image
 		infoTextAres.setText("" + "Loaded image: " + pbiFilePath + "\n"
@@ -75,7 +78,15 @@ public class PBImageShowerApp {
 				+ imgPanel.getCenterX() + "\n" + "Image center y: "
 				+ imgPanel.getCenterY() + "\n" + "Image focal length: "
 				+ imgPanel.getFocalLength() + "\n");
-
+		
+		
+		ImageProcessor img_proc = new ImageProcessor();
+		LocImage locImage = LocImageLoader.loadLocImage(pbiFile);
+//		img_proc.deskew(locImage);
+//		locImage.toGraySpace();
+		img_proc.reduce(locImage);
+		imgPanel.setImage(locImage);
+		imgPanel.repaint();
 	}
 
 }

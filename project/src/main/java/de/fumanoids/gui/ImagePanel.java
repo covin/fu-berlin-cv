@@ -99,7 +99,7 @@ public class ImagePanel extends JPanel {
 	
 	public void setImage(LocImage image) {
 		setSize(image.getWidth(), image.getHeight());
-		
+		this.image = image.getImage();
 		pitch = image.getPitch();
 		roll = image.getRoll();
 		centerX = image.getCenterX();
