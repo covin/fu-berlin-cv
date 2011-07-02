@@ -23,6 +23,10 @@ public class LocImage {
 	public BufferedImage getImage() {
 		return image;
 	}
+	
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
 
 	public int getWidth() {
 		return image.getWidth();
